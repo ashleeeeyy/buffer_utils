@@ -77,10 +77,34 @@ int buffer_write_string(const char src[], char buffer[], int *writehead, int *bu
 }
 
 int debug_output_buffer(char buffer[], int size){
-    for (int i = 0; i < size; ++i, ++buffer){
-        printf("%02x ", (unsigned char) *buffer);
-        if ((i+1)%16 == 0) printf("\n");
+    printf("Buffer dump starting at %p:\n", buffer);
+    char *start =buffer;
+    printf("%*c",12,' ');
+    for (int i = 0; i < 16; ++i) {
+        printf("%02x ", i);
     }
+    printf("\n");
+    printf("===========================================================");
+
+    for (int i = 0; i < size; ++i, ++buffer){
+        if((i)%16 == 0){
+
+            printf("\n0x%08lx: ", buffer-start);
+        }
+        printf("%02x ", (unsigned char) *buffer);
+
+        if(i + 1 >= size){
+            int padding = 15 - i%16;
+            for (int i = 0; i < padding; ++i){
+                printf(".. ");
+            }
+        }
+
+
+
+
+    }
+    printf("\n");
 
     return 0;
 }
